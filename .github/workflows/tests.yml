@@ -16,3 +16,4 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pytest -v
       - run: python examples/kini_likes_yoga.py
+      - run: python examples/kini_likes_yoga_multi_head.py

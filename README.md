@@ -26,6 +26,28 @@ $ python examples/kini_likes_yoga.py
    O_yoga = [1.421 1.155]
 ```
 
+### Now with two heads
+
+One head can only focus on one thing. Multi-head attention runs several heads
+in parallel, each asking its own question, then concatenates the answers and
+mixes them with an output projection `W_O`:
+
+$$\text{MultiHead}(X) = [\ \text{head}_1 \mid \dots \mid \text{head}_h\ ]\ W_O \qquad d_{head} = d_{model} / h$$
+
+For "yoga", head 1 looks at yoga itself, head 2 looks at Kini:
+
+```
+$ python examples/kini_likes_yoga_multi_head.py
+
+3) Concatenate the heads side by side
+   [head 1 | head 2] = [1.421 1.155 1.575 0.335]
+
+4) Output projection: concat @ W_O
+   O_yoga = [ 2.996  1.489 -0.155  0.82 ]
+```
+
+Full walkthrough in [notes/02](notes/02-multi-head-attention.md).
+
 ## Quick start
 
 ```bash
@@ -33,7 +55,8 @@ git clone https://github.com/kini404-lb/transformers-from-zero.git
 cd transformers-from-zero
 pip install -r requirements.txt
 
-python examples/kini_likes_yoga.py   # see the numbers
+python examples/kini_likes_yoga.py              # one head
+python examples/kini_likes_yoga_multi_head.py   # two heads
 pytest                               # check them
 ```
 
@@ -44,8 +67,8 @@ Needs Python 3.9+ and NumPy.
 | #  | Topic                                              | Notes | Code | Status      |
 |----|----------------------------------------------------|-------|------|-------------|
 | 01 | Single-head attention (Q, K, V, softmax, masking)  | [notes](notes/01-single-head-attention.md) | [attention.py](tfz/attention.py) | Done |
-| 02 | Multi-head attention, concatenation, output projection | | | Next |
-| 03 | Residual connections and RMSNorm                   | | | Planned |
+| 02 | Multi-head attention, concatenation, output projection | [notes](notes/02-multi-head-attention.md) | [multi_head.py](tfz/multi_head.py) | Done |
+| 03 | Residual connections and RMSNorm                   | | | Next |
 | 04 | Feed-forward network                               | | | Planned |
 | 05 | A full transformer block                           | | | Planned |
 
